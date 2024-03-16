@@ -1,0 +1,77 @@
+vlan 10
+name Docentes
+vlan 20
+name Estudiantes
+vlan 30
+name Invitados
+vlan 99
+name Nativa
+
+int fa0/1
+switchport mode access
+switchport access vlan 10
+int fa0/2
+switchport mode access
+switchport access vlan 20
+int fa0/3
+switchport mode access
+switchport access vlan 30
+
+int fa0/22
+switchport mode trunk
+switchport trunk native vlan 99
+switchport trunk allowed vlan 10,20,30
+
+int fa0/23
+switchport mode trunk
+switchport trunk native vlan 99
+switchport trunk allowed vlan 10,20,30
+
+
+SW3
+
+vlan 10
+name Docentes
+vlan 20
+name Estudiantes
+vlan 30
+name Invitados
+vlan 99
+name Nativa 
+
+int fa0/22
+switchport mode trunk
+switchport trunk native vlan 99
+switchport trunk allowed vlan 10,20,30
+
+int fa0/23
+switchport mode trunk
+switchport trunk native vlan 99
+switchport trunk allowed vlan 10,20,30
+
+int fa0/24
+switchport mode trunk
+switchport trunk native vlan 99
+switchport trunk allowed vlan 10,20,30
+
+
+
+Router: 
+int g0/0.10
+encapsulation dot1q 10
+ip add 192.168.10.254 255.255.255.0
+int g0/0.20
+encapsulation dot1q 20
+ip add 192.168.20.254 255.255.255.0
+int g0/0.30
+encapsulation dot1q 30
+ip add 192.168.30.254 255.255.255.0
+
+int g0/0
+no shutdown
+
+
+
+
+
+
