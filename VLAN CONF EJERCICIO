@@ -1,0 +1,158 @@
+vlan 10
+name Docentes
+vlan 20
+name Estudiantes
+vlan 30
+name Administrativos
+vlan 99
+name Nativa
+
+int fa0/2
+switchport mode access
+switchport access vlan 10
+int fa0/3
+switchport mode access
+switchport access vlan 20
+int fa0/4
+switchport mode access
+switchport access vlan 30
+
+vlan 40
+name Ventas
+vlan 50
+name Laptops
+vlan 60
+name Marketing
+vlan 99
+name Nativa
+
+int fa0/1
+switchport mode access
+switchport access vlan 40
+int fa0/2
+switchport mode access
+switchport access vlan 50
+int fa0/3
+switchport mode access
+switchport access vlan 60
+
+
+Enlaces troncales
+
+conf t
+int fa0/1
+switchport mode trunk
+switchport trunk native vlan 99
+switchport trunk allowed vlan 10,20,30,99
+end
+
+conf t
+int fa0/2
+switchport mode trunk
+switchport trunk native vlan 99
+switchport trunk allowed vlan 10,20,30,99
+end
+
+Switch:
+
+int fa0/3
+switchport mode trunk
+end
+
+ROUTER
+
+
+
+int g0/0.10
+encapsulation dot1q 10
+ip add 192.168.10.254 255.255.255.0
+int g0/0.20
+encapsulation dot1q 20
+ip add 192.168.20.254 255.255.255.0
+int g0/0.30
+encapsulation dot1q 30
+ip add 192.168.30.254 255.255.255.0
+
+int g0/0
+no shutdown
+
+
+int g0/1.40
+encapsulation dot1q 40
+ip add 172.20.40.254 255.255.255.0
+int g0/1.50
+encapsulation dot1q 30
+ip add 172.120.50.254 255.255.255.0
+int g0/1.60
+encapsulation dot1q 60
+ip add 172.20.60.254 255.255.255.0
+int g0/1.70
+encapsulation dot1q 70
+ip add 172.20.700.254 255.255.255.0
+
+
+int g0/1
+no shutdown
+
+
+
+
+
+
+
+
+
+
+
+=========================
+int g0/0
+ip add 192.168.10.254 255.255.255.0
+no shutdown
+
+int g0/1
+ip add 172.20.10.254 255.255.255.0
+no shutdown
+
+
+===============================
+OSPF
+
+router ospf 10
+net 192.168.10.0 0.0.0.255 area 0
+net 192.168.20.0 0.0.0.255 area 0
+net 192.168.30.0 0.0.0.255 area 0
+net 172.20.40.0 0.0.0.255 area 0
+net 172.20.50.0 0.0.0.255 area 0
+net 172.20.60.0 0.0.0.255 area 0
+net 210.100.10.0 0.0.0.3 area 0
+
+===================================
+DHCP
+
+SW4(config)#vlan 70
+SW4(config-vlan)#name DHCP
+SW4(config-vlan)#int fa0/5
+SW4(config-if)#switchport mode access
+SW4(config-if)#switchport access vlan 70
+
+=========================
+
+SWITCH TRONCAL
+int gi0/1
+switchport mode trunk
+switchport trunk native vlan 99
+switchport trunk allowed vlan 40,50,60,70,99
+=========================
+
+CONFIGURANDO DHCP EN ROUTER TRONCAL
+int gi0/1
+switchport mode trunk
+switchport trunk native vlan 99
+switchport trunk allowed vlan 40,50,60,70,99
+
+
+
+
+
+
+
