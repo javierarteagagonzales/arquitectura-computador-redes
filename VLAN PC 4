@@ -1,0 +1,67 @@
+vlan 21
+name Docentes
+vlan 31
+name Estudiantes
+vlan 41
+name Invitados
+vlan 110
+name Nativa
+
+int fa0/5
+switchport mode access
+switchport access vlan 21
+int fa0/10
+switchport mode access
+switchport access vlan 31
+int fa0/15
+switchport mode access
+switchport access vlan 41
+
+
+int fa0/23
+switchport mode trunk
+switchport trunk native vlan 110
+switchport trunk allowed vlan 21,31,41
+
+int fa0/24
+switchport mode trunk
+switchport trunk native vlan 110
+switchport trunk allowed vlan 21,31,41
+
+int fa0/1
+switchport mode trunk
+switchport trunk native vlan 110
+switchport trunk allowed vlan 21,31,41
+
+int fa0/2
+switchport mode trunk
+switchport trunk native vlan 110
+switchport trunk allowed vlan 21,31,41
+
+int gi0/1
+switchport mode trunk
+switchport trunk native vlan 110
+switchport trunk allowed vlan 21,31,41
+
+
+
+Router: 
+int g0/0.21
+encapsulation dot1q 21
+ip add 192.21.104.254 255.255.255.0
+int g0/0.31
+encapsulation dot1q 31
+ip add 192.31.104.254 255.255.254.0
+int g0/0.41
+encapsulation dot1q 41
+ip add 192.41.104.254 255.255.255.128
+
+int g0/1
+no shutdown
+
+ip dhcp excluded-address 172.17.108.1 172.17.108.10
+ip dhcp pool router_2
+net 172.17.108.0 255.255.252.0
+default-router 172.17.108.1
+
+
